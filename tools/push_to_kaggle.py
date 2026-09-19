@@ -12,7 +12,7 @@ headers = {'Authorization': f'Basic {auth}', 'Content-Type': 'application/json'}
 
 nb = Path('notebooks/ablation_kaggle.ipynb').read_text(encoding='utf-8')
 payload = {
-    'newTitle': 'SvelteF3M YOLO26 Ablation Master',
+    'newTitle': 'SvelteF3M YOLO26 Ablation Master v2',
     'text': nb,
     'language': 'python',
     'kernelType': 'notebook',
