@@ -1,0 +1,33 @@
+
+# TrashCan-Instance — YOLO dataset configuration
+# Used by YOLO11n baseline training scripts.
+
+path: /kaggle/input/trashcan-1-0   # Kaggle dataset root
+train: images/train
+val:   images/val
+
+nc: 22
+
+names:
+  0:  can
+  1:  carton
+  2:  metal
+  3:  misc-debris
+  4:  paper
+  5:  pipe
+  6:  plastic-bag
+  7:  plastic-bottle
+  8:  plastic-container
+  9:  plastic-gloves
+  10: plastic-net
+  11: rope
+  12: rov
+  13: rubber-gloves
+  14: scarf
+  15: shoe
+  16: snack-wrapper
+  17: textile
+  18: tire
+  19: towel
+  20: wood
+  21: fishing-gear

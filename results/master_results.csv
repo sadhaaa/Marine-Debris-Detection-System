@@ -1,0 +1,7 @@
+model,mAP50,mAP50-95,precision,recall,params_M,GFLOPs,status,checkpoint
+YOLO26n,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,PENDING,experiments/01_yolo26n/yolo26n_baseline_seed42/weights/best.pt
+YOLO11n,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,PENDING,experiments/02_yolo11n/yolo11n_baseline_seed42/weights/best.pt
+SvelteNeck-e050,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,PENDING,experiments/03_sveltneck_e050/sveltneck_e050_seed42/weights/best.pt
+SvelteNeck-e075,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,PENDING,experiments/03_sveltneck_e075/sveltneck_e075_seed42/weights/best.pt
+YOLO26n+F3M,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,PENDING,experiments/04_yolo26n_f3m/yolo26n_f3m_seed42/weights/best.pt
+SvelteNeck+F3M,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,PENDING,experiments/05_sveltneck_f3m/sveltneck_f3m_seed42/weights/best.pt

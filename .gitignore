@@ -1,0 +1,43 @@
+# ── Python ────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+
+# ── Jupyter ───────────────────────────────────────────────────
+.ipynb_checkpoints/
+
+# ── Datasets (too large for GitHub) ───────────────────────────
+data/raw/
+data/processed/
+trashcan-1-0/
+trashcan_instance/
+
+# ── Model weights (use Kaggle / releases for these) ───────────
+*.pt
+*.pth
+*.onnx
+*.engine
+*.safetensors
+*.tflite
+
+# ── Training runs / Ultralytics outputs ───────────────────────
+runs/
+wandb/
+mlruns/
+
+# ── Experiment weights (keep logs/plots, exclude weights) ─────
+experiments/*/weights/
+experiments/*/predictions/
+
+# ── Large archives ────────────────────────────────────────────
+*.zip
+
+# ── OS / IDE ──────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.vscode/
+
+# ── Kaggle API key (never commit) ─────────────────────────────
+kaggle.json

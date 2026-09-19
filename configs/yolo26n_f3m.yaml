@@ -1,0 +1,50 @@
+
+# YOLO26n + F3M — Model Architecture Configuration
+# Native YOLO26n backbone + standard PAN neck + F3M attention gates.
+
+nc: 22
+end2end: True
+reg_max: 1
+
+scales:
+  n: [0.50, 0.25, 1024]
+
+scale: n
+
+backbone:
+  - [-1, 1, Conv,   [64,  3, 2]]
+  - [-1, 1, Conv,   [128, 3, 2]]
+  - [-1, 2, C3k2,   [256, False, 0.25]]
+  - [-1, 1, Conv,   [256, 3, 2]]
+  - [-1, 2, C3k2,   [512, False, 0.25]]
+  - [-1, 1, Conv,   [512, 3, 2]]
+  - [-1, 2, C3k2,   [512, True]]
+  - [-1, 1, Conv,   [1024, 3, 2]]
+  - [-1, 2, C3k2,   [1024, True]]
+  - [-1, 1, SPPF,   [1024, 5, 3, True]]
+  - [-1, 2, C2PSA,  [1024]]
+
+head:
+  # Standard PAN neck (same as vanilla YOLO26n)
+  - [-1, 1, nn.Upsample, [None, 2, "nearest"]]
+  - [[-1, 6], 1, Concat, [1]]
+  - [-1, 2, C3k2, [512, False]]
+
+  - [-1, 1, nn.Upsample, [None, 2, "nearest"]]
+  - [[-1, 4], 1, Concat, [1]]
+  - [-1, 2, C3k2, [256, False]]           # 16 — P3 (64ch after scale)
+
+  - [-1, 1, Conv, [256, 3, 2]]
+  - [[-1, 13], 1, Concat, [1]]
+  - [-1, 2, C3k2, [512, False]]           # 19 — P4 (128ch after scale)
+
+  - [-1, 1, Conv, [512, 3, 2]]
+  - [[-1, 10], 1, Concat, [1]]
+  - [-1, 2, C3k2, [512, True]]            # 22 — P5 (256ch after scale)
+
+  # F3M attention gates (one per detection scale)
+  - [16, 1, F3M, [64]]                    # 23 — P3 with attention
+  - [19, 1, F3M, [128]]                   # 24 — P4 with attention
+  - [22, 1, F3M, [256]]                   # 25 — P5 with attention
+
+  - [[23, 24, 25], 1, Detect, [nc]]       # 26

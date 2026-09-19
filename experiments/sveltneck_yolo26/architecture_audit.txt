@@ -1,0 +1,31 @@
+SvelteNeck-YOLO26 Architecture Audit
+====================================
+
+Version: A
+Expansion ratio: e=0.75
+
+Input:
+640 x 640
+
+Integrated parameters:
+2,466,658
+2.466658 M
+
+Integrated MACs:
+3,228,134,400
+
+Integrated GFLOPs:
+6.4562688
+
+Forward pass:
+PASS
+
+Detect output:
+[1, 26, 8400]
+
+Status:
+NOT TRAINED
+
+Reason:
+Computational audit completed before training.
+Version A exceeds the desired YOLO26-like computational budget.
