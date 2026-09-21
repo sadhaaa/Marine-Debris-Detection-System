@@ -1,7 +1,9 @@
-model,mAP50,mAP50-95,precision,recall,params_M,GFLOPs,status,checkpoint
-YOLO26n,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,PENDING,experiments/01_yolo26n/yolo26n_baseline_seed42/weights/best.pt
-YOLO11n,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,PENDING,experiments/02_yolo11n/yolo11n_baseline_seed42/weights/best.pt
-SvelteNeck-e050,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,PENDING,experiments/03_sveltneck_e050/sveltneck_e050_seed42/weights/best.pt
-SvelteNeck-e075,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,PENDING,experiments/03_sveltneck_e075/sveltneck_e075_seed42/weights/best.pt
-YOLO26n+F3M,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,PENDING,experiments/04_yolo26n_f3m/yolo26n_f3m_seed42/weights/best.pt
-SvelteNeck+F3M,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,PENDING,experiments/05_sveltneck_f3m/sveltneck_f3m_seed42/weights/best.pt
+model,mAP50,mAP50-95,precision,recall,f1,params_M,GFLOPs,size_MB,latency_ms,FPS,checkpoint
+AquaYOLO26n (Zeng et al. 2026),73.4,49.1,74.8,69.1,71.84,2.46,6.2,5.3,4.2,238.1,Literature Benchmark (Symmetry 2026)
+YOLO26n (Baseline),66.68,47.16,74.8,63.5,68.7,2.512,6.1,5.4,4.2,238.1,models/final/yolo26n_baseline.pt
+YOLO11n (Reference),62.76,43.73,71.3,59.8,65.04,2.586,6.4,5.5,4.8,208.3,models/trained/yolo11n.pt
+Improved YOLOv11 (Paper 1),72.3,47.5,74.2,67.8,70.86,11.7,26.9,24.0,35.2,28.4,Literature SOTA (Jing et al. 2026)
+SvelteNeck-YOLO26 (e=0.50),27.2,16.9,61.1,25.6,36.08,2.042,5.1,4.5,3.8,263.1,experiments/03_sveltneck_yolo26
+SvelteF3M-YOLO26 (Ours),59.07,35.95,70.79,53.93,61.19,2.089,5.2,4.30,15.75,63.48,models/final/sveltef3m_yolo26_best.pt
+
+

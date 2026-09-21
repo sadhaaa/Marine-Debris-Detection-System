@@ -105,13 +105,11 @@ class F3M(nn.Module):
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """
         Apply channel then spatial attention gates.
-
-        Args:
-            x: Input tensor [B, c, H, W].
-
-        Returns:
-            Gated tensor [B, c, H, W].
+        Supports both Kaggle-trained checkpoints (self.se, self.sp) and standard variants.
         """
+        if hasattr(self, 'se') and hasattr(self, 'sp'):
+            return x * self.se(x).view(x.size(0), -1, 1, 1) * self.sp(x)
+
         # Channel gate: [B, c] → [B, c, 1, 1]
         cg = self.channel_gate(x)
         cg = cg.view(cg.shape[0], cg.shape[1], 1, 1)

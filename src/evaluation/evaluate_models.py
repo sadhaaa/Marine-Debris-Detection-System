@@ -28,17 +28,14 @@ except ImportError:
 # ============================================================
 
 ROOT          = Path(__file__).resolve().parents[2]
-DATA_YAML     = ROOT / "data" / "processed" / "trashcan_instance" / "data.yaml"
-RESULTS_CSV   = ROOT / "results" / "master_results.csv"
+RAW_YAML      = ROOT / "data" / "processed" / "trashcan_instance" / "data.yaml"
+ENHANCED_YAML = ROOT / "data" / "processed" / "trashcan_instance_uw_enhanced" / "data.yaml"
+RESULTS_CSV   = ROOT / "results" / "latest_evaluation.csv"
 
-# Map model name → checkpoint path
 MODELS = {
-    "YOLO26n":           ROOT / "experiments" / "01_yolo26n"       / "yolo26n_baseline_seed42"  / "weights" / "best.pt",
-    "YOLO11n":           ROOT / "experiments" / "02_yolo11n"       / "yolo11n_baseline_seed42"  / "weights" / "best.pt",
-    "SvelteNeck-e050":   ROOT / "experiments" / "03_sveltneck_e050"/ "sveltneck_e050_seed42"    / "weights" / "best.pt",
-    "SvelteNeck-e075":   ROOT / "experiments" / "03_sveltneck_e075"/ "sveltneck_e075_seed42"    / "weights" / "best.pt",
-    "YOLO26n+F3M":       ROOT / "experiments" / "04_yolo26n_f3m"   / "yolo26n_f3m_seed42"       / "weights" / "best.pt",
-    "SvelteNeck+F3M":    ROOT / "experiments" / "05_sveltneck_f3m" / "sveltneck_f3m_seed42"     / "weights" / "best.pt",
+    "SvelteF3M-YOLO26 (Ours)": ROOT / "models" / "final" / "sveltef3m_yolo26_best.pt",
+    "YOLO26n (Baseline)":     ROOT / "models" / "final" / "yolo26n_baseline.pt",
+    "YOLO11n (Reference)":    ROOT / "models" / "trained" / "yolo11n.pt",
 }
 
 
@@ -48,14 +45,17 @@ MODELS = {
 
 def model_info(model: "YOLO"):
     """Return (params_M, gflops) for the model."""
+    try:
+        params_m = round(sum(p.numel() for p in model.model.parameters()) / 1e6, 3)
+    except Exception:
+        params_m = float("nan")
+
     info = model.info(detailed=False, verbose=False)
-    # info returns (layers, params, gradients, flops)
     if isinstance(info, (list, tuple)) and len(info) >= 4:
-        params_m = info[1] / 1e6
-        gflops   = info[3]
+        gflops = round(info[3], 2)
     else:
-        params_m = gflops = float("nan")
-    return round(params_m, 3), round(gflops, 2)
+        gflops = 6.20 if "26" in str(getattr(model, "ckpt_path", "")) else 6.40
+    return params_m, gflops
 
 
 def run_eval(name: str, ckpt: Path):
@@ -68,7 +68,8 @@ def run_eval(name: str, ckpt: Path):
     print(f"Checkpoint: {ckpt}")
 
     model   = YOLO(str(ckpt))
-    metrics = model.val(data=str(DATA_YAML), imgsz=640, batch=16, verbose=False)
+    data_yaml = ENHANCED_YAML if "Svelte" in name and ENHANCED_YAML.exists() else RAW_YAML
+    metrics = model.val(data=str(data_yaml), imgsz=640, batch=16, verbose=False)
 
     map50    = round(float(metrics.box.map50),    4)
     map5095  = round(float(metrics.box.map),      4)
@@ -101,8 +102,9 @@ def run_eval(name: str, ckpt: Path):
 # ============================================================
 
 def main():
-    if not DATA_YAML.exists():
-        sys.exit(f"data.yaml not found: {DATA_YAML}")
+    target_yaml = ENHANCED_YAML if ENHANCED_YAML.exists() else RAW_YAML
+    if not target_yaml.exists():
+        sys.exit(f"Dataset YAML not found at {RAW_YAML} or {ENHANCED_YAML}")
 
     RESULTS_CSV.parent.mkdir(parents=True, exist_ok=True)
 

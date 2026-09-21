@@ -6,7 +6,7 @@ u = creds['username']; k = creds['key']
 auth = base64.b64encode(f'{u}:{k}'.encode()).decode()
 headers = {'Authorization': f'Basic {auth}'}
 
-slug = 'sveltef3m-yolo26-ablation-master-v2'
+slug = 'sveltef3m-stages-2-and-3-only'
 
 # 1. Check live status
 status_url = f'https://www.kaggle.com/api/v1/kernels/status?userName={u}&kernelSlug={slug}'

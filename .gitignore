@@ -14,13 +14,16 @@ data/processed/
 trashcan-1-0/
 trashcan_instance/
 
-# ── Model weights (use Kaggle / releases for these) ───────────
+# ── Model weights (ignore intermediate runs, track core checkpoints <6MB) ──
 *.pt
 *.pth
 *.onnx
 *.engine
 *.safetensors
 *.tflite
+!models/final/*.pt
+!models/trained/yolo11n.pt
+!app/best.pt
 
 # ── Training runs / Ultralytics outputs ───────────────────────
 runs/

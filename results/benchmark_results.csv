@@ -1,0 +1,4 @@
+model,latency_ms,fps,params_M,GFLOPs,device,batch,imgsz
+SvelteF3M-YOLO26 (Ours),16.129,62.0,2.089,6.2,cuda,1,640
+YOLO26n (Baseline),17.437,57.35,2.512,6.2,cuda,1,640
+YOLO11n (Reference),14.265,70.1,2.594,6.4,cuda,1,640

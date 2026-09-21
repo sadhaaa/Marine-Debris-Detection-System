@@ -1,5 +1,5 @@
 """
-push_to_kaggle.py - Push master ablation training notebook to Kaggle GPU
+push_to_kaggle.py - Update existing master ablation training notebook on Kaggle GPU
 """
 import json, urllib.request, urllib.error, base64
 from pathlib import Path
@@ -12,7 +12,7 @@ headers = {'Authorization': f'Basic {auth}', 'Content-Type': 'application/json'}
 
 nb = Path('notebooks/ablation_kaggle.ipynb').read_text(encoding='utf-8')
 payload = {
-    'newTitle': 'SvelteF3M YOLO26 Ablation Master v2',
+    'id': 134963311,  # Updates the exact notebook: sveltef3m-stages-2-and-3-only
     'text': nb,
     'language': 'python',
     'kernelType': 'notebook',
@@ -32,6 +32,7 @@ req = urllib.request.Request(
 try:
     with urllib.request.urlopen(req, timeout=90) as resp:
         r = json.loads(resp.read().decode())
+        print('Updated same notebook successfully!')
         print('URL:', r.get('url'))
         print('KernelId:', r.get('kernelId'))
         print('HasError:', r.get('hasError'))

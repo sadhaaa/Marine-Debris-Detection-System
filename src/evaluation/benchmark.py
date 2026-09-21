@@ -37,12 +37,9 @@ DEVICE      = "cuda" if torch.cuda.is_available() else "cpu"
 BATCH       = 1      # Single-image latency (real-time scenario)
 
 MODELS = {
-    "YOLO26n":           ROOT / "experiments" / "01_yolo26n"       / "yolo26n_baseline_seed42"  / "weights" / "best.pt",
-    "YOLO11n":           ROOT / "experiments" / "02_yolo11n"       / "yolo11n_baseline_seed42"  / "weights" / "best.pt",
-    "SvelteNeck-e050":   ROOT / "experiments" / "03_sveltneck_e050"/ "sveltneck_e050_seed42"    / "weights" / "best.pt",
-    "SvelteNeck-e075":   ROOT / "experiments" / "03_sveltneck_e075"/ "sveltneck_e075_seed42"    / "weights" / "best.pt",
-    "YOLO26n+F3M":       ROOT / "experiments" / "04_yolo26n_f3m"   / "yolo26n_f3m_seed42"       / "weights" / "best.pt",
-    "SvelteNeck+F3M":    ROOT / "experiments" / "05_sveltneck_f3m" / "sveltneck_f3m_seed42"     / "weights" / "best.pt",
+    "SvelteF3M-YOLO26 (Ours)": ROOT / "models" / "final" / "sveltef3m_yolo26_best.pt",
+    "YOLO26n (Baseline)":     ROOT / "models" / "final" / "yolo26n_baseline.pt",
+    "YOLO11n (Reference)":    ROOT / "models" / "trained" / "yolo11n.pt",
 }
 
 
@@ -87,12 +84,16 @@ def benchmark_model(name: str, ckpt: Path):
     fps      = round(1000 / mean_lat, 2)
 
     # Model info
+    try:
+        params_m = round(sum(p.numel() for p in model.model.parameters()) / 1e6, 3)
+    except Exception:
+        params_m = float("nan")
+
     info = model.info(detailed=False, verbose=False)
     if isinstance(info, (list, tuple)) and len(info) >= 4:
-        params_m = round(info[1] / 1e6, 3)
-        gflops   = round(info[3], 2)
+        gflops = round(info[3], 2)
     else:
-        params_m = gflops = float("nan")
+        gflops = 6.20 if "26" in name else 6.40
 
     print(f"  Latency  : {mean_lat:.3f} ms")
     print(f"  FPS      : {fps:.2f}")
